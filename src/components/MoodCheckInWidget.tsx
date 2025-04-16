@@ -1,17 +1,18 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { 
   Smile, 
   Meh, 
   Frown, 
-  Battery, 
-  BatteryMedium, 
-  BatteryFull, 
-  Zap,       // Added more expressive icons
+  Zap, 
   TrendingUp, 
-  Sun 
+  Sun,
+  ArrowRight,
+  Check 
 } from 'lucide-react';
 
 type MoodType = 'happy' | 'neutral' | 'sad' | null;
@@ -23,149 +24,202 @@ interface MoodCheckInWidgetProps {
 }
 
 const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
+  const [step, setStep] = useState<1 | 2>(1);
   const [selectedMood, setSelectedMood] = useState<MoodType>(null);
   const [selectedEnergy, setSelectedEnergy] = useState<EnergyType>(null);
 
   const handleSubmit = () => {
     if (selectedMood && selectedEnergy && onSubmit) {
       onSubmit(selectedMood, selectedEnergy);
+      // Reset for next time
       setSelectedMood(null);
       setSelectedEnergy(null);
+      setStep(1);
     }
   };
 
-  const MoodButton = ({ mood, icon: Icon, label, selectedColor }: { 
+  const handleNextStep = () => {
+    if (selectedMood) {
+      setStep(2);
+    }
+  };
+
+  const getMoodEmoji = (mood: MoodType) => {
+    switch (mood) {
+      case 'happy': return '😊';
+      case 'neutral': return '😐';
+      case 'sad': return '😔';
+      default: return '';
+    }
+  };
+
+  const getEnergyEmoji = (energy: EnergyType) => {
+    switch (energy) {
+      case 'low': return '⚡';
+      case 'medium': return '⚡⚡';
+      case 'high': return '⚡⚡⚡';
+      default: return '';
+    }
+  };
+
+  const MoodOption = ({ mood, icon: Icon, label }: { 
     mood: MoodType; 
     icon: React.ElementType; 
-    label: string; 
-    selectedColor: string 
+    label: string;
   }) => (
-    <button
-      type="button"
-      onClick={() => setSelectedMood(mood)}
+    <div 
       className={cn(
-        "flex flex-col items-center justify-center w-24 h-24 gap-2 rounded-2xl transition-all duration-300 hover:scale-105 group",
+        "flex items-center p-4 rounded-xl transition-all cursor-pointer",
         selectedMood === mood 
-          ? `${selectedColor} shadow-lg scale-110` 
-          : "bg-secondary/30 hover:bg-secondary/50"
+          ? "bg-primary text-primary-foreground shadow-md scale-105" 
+          : "bg-secondary/50 hover:bg-secondary hover:scale-102"
       )}
-      aria-label={`Select mood: ${label}`}
+      onClick={() => setSelectedMood(mood)}
     >
-      <Icon 
-        className={cn(
-          "w-10 h-10 transition-all duration-300",
-          selectedMood === mood 
-            ? "text-white scale-110" 
-            : "text-muted-foreground group-hover:text-foreground"
-        )} 
-      />
-      <span className={cn(
-        "text-sm font-medium transition-colors",
-        selectedMood === mood ? "text-white" : "text-foreground"
+      <div className={cn(
+        "flex items-center justify-center w-12 h-12 rounded-full mr-3",
+        selectedMood === mood ? "bg-primary-foreground/20" : "bg-background/50"
       )}>
-        {label}
-      </span>
-    </button>
+        <Icon 
+          className={cn(
+            "w-7 h-7",
+            selectedMood === mood ? "text-primary-foreground" : "text-foreground"
+          )} 
+        />
+      </div>
+      <div className="flex-1">
+        <p className={cn(
+          "text-lg font-medium",
+          selectedMood === mood ? "text-primary-foreground" : "text-foreground"
+        )}>
+          {label}
+        </p>
+      </div>
+      {selectedMood === mood && (
+        <Check className="w-5 h-5 text-primary-foreground ml-2" />
+      )}
+    </div>
   );
 
-  const EnergyButton = ({ level, icon: Icon, label, selectedColor }: { 
+  const EnergyOption = ({ level, icon: Icon, label }: { 
     level: EnergyType; 
     icon: React.ElementType; 
-    label: string; 
-    selectedColor: string 
+    label: string;
   }) => (
-    <button
-      type="button"
-      onClick={() => setSelectedEnergy(level)}
+    <div
       className={cn(
-        "flex flex-col items-center justify-center w-24 h-24 gap-2 rounded-2xl transition-all duration-300 hover:scale-105 group",
+        "flex items-center p-4 rounded-xl transition-all cursor-pointer",
         selectedEnergy === level 
-          ? `${selectedColor} shadow-lg scale-110` 
-          : "bg-secondary/30 hover:bg-secondary/50"
+          ? "bg-primary text-primary-foreground shadow-md scale-105" 
+          : "bg-secondary/50 hover:bg-secondary hover:scale-102"
       )}
-      aria-label={`Select energy level: ${label}`}
+      onClick={() => setSelectedEnergy(level)}
     >
-      <Icon 
-        className={cn(
-          "w-10 h-10 transition-all duration-300",
-          selectedEnergy === level 
-            ? "text-white scale-110" 
-            : "text-muted-foreground group-hover:text-foreground"
-        )} 
-      />
-      <span className={cn(
-        "text-sm font-medium transition-colors",
-        selectedEnergy === level ? "text-white" : "text-foreground"
+      <div className={cn(
+        "flex items-center justify-center w-12 h-12 rounded-full mr-3",
+        selectedEnergy === level ? "bg-primary-foreground/20" : "bg-background/50"
       )}>
-        {label}
-      </span>
-    </button>
+        <Icon 
+          className={cn(
+            "w-7 h-7",
+            selectedEnergy === level ? "text-primary-foreground" : "text-foreground"
+          )} 
+        />
+      </div>
+      <div className="flex-1">
+        <p className={cn(
+          "text-lg font-medium",
+          selectedEnergy === level ? "text-primary-foreground" : "text-foreground"
+        )}>
+          {label}
+        </p>
+      </div>
+      {selectedEnergy === level && (
+        <Check className="w-5 h-5 text-primary-foreground ml-2" />
+      )}
+    </div>
   );
 
   return (
-    <div className={cn("fitness-card", className)}>
-      <h3 className="text-xl font-bold mb-6 text-center">How are you feeling?</h3>
-      
-      <div className="space-y-6">
-        <div>
-          <p className="text-sm text-muted-foreground mb-4 text-center">Your Mood</p>
-          <div className="flex justify-between gap-4 px-4">
-            <MoodButton 
-              mood="happy" 
-              icon={Smile} 
-              label="Great" 
-              selectedColor="bg-fitPulse-green" 
-            />
-            <MoodButton 
-              mood="neutral" 
-              icon={Meh} 
-              label="Okay" 
-              selectedColor="bg-fitPulse-blue" 
-            />
-            <MoodButton 
-              mood="sad" 
-              icon={Frown} 
-              label="Down" 
-              selectedColor="bg-fitPulse-orange" 
-            />
+    <Card className={cn("overflow-hidden", className)}>
+      <CardHeader className="bg-muted/50">
+        <CardTitle className="text-xl text-center">How are you feeling today?</CardTitle>
+      </CardHeader>
+      <CardContent className="p-6">
+        {step === 1 ? (
+          <div className="space-y-6">
+            <h3 className="text-lg font-medium">What's your mood?</h3>
+            <div className="space-y-3">
+              <MoodOption 
+                mood="happy" 
+                icon={Smile} 
+                label="Great" 
+              />
+              <MoodOption 
+                mood="neutral" 
+                icon={Meh} 
+                label="Okay" 
+              />
+              <MoodOption 
+                mood="sad" 
+                icon={Frown} 
+                label="Down" 
+              />
+            </div>
+            <Button
+              onClick={handleNextStep}
+              className="w-full mt-4"
+              disabled={!selectedMood}
+            >
+              Next <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </div>
-        </div>
-        
-        <div>
-          <p className="text-sm text-muted-foreground mb-4 text-center">Energy Level</p>
-          <div className="flex justify-between gap-4 px-4">
-            <EnergyButton 
-              level="low" 
-              icon={Zap} 
-              label="Low" 
-              selectedColor="bg-energy-low" 
-            />
-            <EnergyButton 
-              level="medium" 
-              icon={TrendingUp} 
-              label="Medium" 
-              selectedColor="bg-energy-medium" 
-            />
-            <EnergyButton 
-              level="high" 
-              icon={Sun} 
-              label="High" 
-              selectedColor="bg-energy-high" 
-            />
+        ) : (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium">Your energy level?</h3>
+              <div className="text-sm text-muted-foreground">
+                Mood: {getMoodEmoji(selectedMood)} {selectedMood}
+              </div>
+            </div>
+            <div className="space-y-3">
+              <EnergyOption 
+                level="low" 
+                icon={Zap} 
+                label="Low" 
+              />
+              <EnergyOption 
+                level="medium" 
+                icon={TrendingUp} 
+                label="Medium" 
+              />
+              <EnergyOption 
+                level="high" 
+                icon={Sun} 
+                label="High" 
+              />
+            </div>
+            <div className="flex gap-3 mt-4">
+              <Button 
+                variant="outline" 
+                onClick={() => setStep(1)}
+                className="flex-1"
+              >
+                Back
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                className="flex-1"
+                disabled={!selectedEnergy}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
-        </div>
-        
-        <Button
-          onClick={handleSubmit}
-          className="w-full mt-4"
-          disabled={!selectedMood || !selectedEnergy}
-        >
-          Log Check-In
-        </Button>
-      </div>
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
 export default MoodCheckInWidget;
-

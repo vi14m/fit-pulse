@@ -45,7 +45,7 @@ const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) =
           <span className="text-xl font-bold">FitPulse</span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center gap-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -57,9 +57,25 @@ const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) =
               <item.icon className="w-5 h-5" />
             </Link>
           ))}
+          
+          <ViewToggle 
+            isDarkMode={isDarkMode} 
+            onToggle={onToggleTheme} 
+            className="ml-2"
+          />
+          
+          <Link 
+            to="/profile" 
+            className="relative w-8 h-8 rounded-full bg-gradient-to-br from-fitPulse-pink to-fitPulse-purple flex items-center justify-center text-white font-medium ml-2"
+            aria-label="Profile"
+          >
+            A
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-fitPulse-green rounded-full border-2 border-background"></span>
+          </Link>
         </div>
         
-        <div className="flex items-center space-x-4">
+        {/* Mobile only - show profile and theme toggle in header */}
+        <div className="md:hidden flex items-center space-x-2">
           <ViewToggle 
             isDarkMode={isDarkMode} 
             onToggle={onToggleTheme} 
