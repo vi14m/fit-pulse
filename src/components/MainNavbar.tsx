@@ -45,15 +45,16 @@ const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) =
           <span className="text-xl font-bold">FitPulse</span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <Link
               key={item.href}
               to={item.href}
-              className="flex items-center space-x-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition-colors"
+              aria-label={item.label}
+              title={item.label}
             >
-              <item.icon className="w-4 h-4" />
-              <span>{item.label}</span>
+              <item.icon className="w-5 h-5" />
             </Link>
           ))}
         </div>
@@ -67,6 +68,7 @@ const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) =
           <Link 
             to="/profile" 
             className="relative w-8 h-8 rounded-full bg-gradient-to-br from-fitPulse-pink to-fitPulse-purple flex items-center justify-center text-white font-medium"
+            aria-label="Profile"
           >
             A
             <span className="absolute bottom-0 right-0 w-3 h-3 bg-fitPulse-green rounded-full border-2 border-background"></span>
@@ -80,10 +82,10 @@ const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) =
           <Link
             key={item.href}
             to={item.href}
-            className="flex flex-col items-center px-2 py-1"
+            className="flex flex-col items-center p-2"
+            aria-label={item.label}
           >
-            <item.icon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-xs mt-1 text-muted-foreground">{item.label}</span>
+            <item.icon className="w-6 h-6 text-muted-foreground" />
           </Link>
         ))}
       </div>
