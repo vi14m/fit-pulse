@@ -19,7 +19,6 @@ const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
   const handleSubmit = () => {
     if (selectedMood && selectedEnergy && onSubmit) {
       onSubmit(selectedMood, selectedEnergy);
-      // Reset after submit
       setSelectedMood(null);
       setSelectedEnergy(null);
     }
@@ -30,17 +29,21 @@ const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
       type="button"
       onClick={() => setSelectedMood(mood)}
       className={cn(
-        "flex flex-col items-center gap-1.5 p-3 rounded-lg transition-all",
-        selectedMood === mood ? "bg-secondary scale-110" : "hover:bg-secondary/50"
+        "flex flex-col items-center justify-center w-20 h-20 gap-2 rounded-xl transition-all duration-200",
+        selectedMood === mood
+          ? "bg-secondary shadow-lg scale-105"
+          : "hover:bg-secondary/50",
+        "group"
       )}
+      aria-label={`Select mood: ${label}`}
     >
       <Icon className={cn(
-        "w-8 h-8 transition-colors",
-        selectedMood === mood && (
-          mood === 'happy' ? "text-fitPulse-green" : 
-          mood === 'neutral' ? "text-fitPulse-blue" : 
-          "text-fitPulse-orange"
-        )
+        "w-8 h-8 transition-colors duration-200",
+        selectedMood === mood
+          ? mood === 'happy' ? "text-fitPulse-green"
+            : mood === 'neutral' ? "text-fitPulse-blue"
+            : "text-fitPulse-orange"
+          : "text-muted-foreground group-hover:text-foreground"
       )} />
       <span className="text-xs font-medium">{label}</span>
     </button>
@@ -51,30 +54,34 @@ const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
       type="button"
       onClick={() => setSelectedEnergy(level)}
       className={cn(
-        "flex flex-col items-center gap-1.5 p-3 rounded-lg transition-all",
-        selectedEnergy === level ? "bg-secondary scale-110" : "hover:bg-secondary/50"
+        "flex flex-col items-center justify-center w-20 h-20 gap-2 rounded-xl transition-all duration-200",
+        selectedEnergy === level
+          ? "bg-secondary shadow-lg scale-105"
+          : "hover:bg-secondary/50",
+        "group"
       )}
+      aria-label={`Select energy level: ${label}`}
     >
       <Icon className={cn(
-        "w-7 h-7 transition-colors",
-        selectedEnergy === level && (
-          level === 'low' ? "text-energy-low" : 
-          level === 'medium' ? "text-energy-medium" : 
-          "text-energy-high"
-        )
+        "w-7 h-7 transition-colors duration-200",
+        selectedEnergy === level
+          ? level === 'low' ? "text-energy-low"
+            : level === 'medium' ? "text-energy-medium"
+            : "text-energy-high"
+          : "text-muted-foreground group-hover:text-foreground"
       )} />
       <span className="text-xs font-medium">{label}</span>
     </button>
   );
 
   return (
-    <div className={cn("fitness-card animate-slide-up", className)}>
-      <h3 className="text-lg font-semibold mb-4">How are you feeling?</h3>
+    <div className={cn("fitness-card", className)}>
+      <h3 className="text-lg font-semibold mb-6">How are you feeling?</h3>
       
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <p className="text-sm text-muted-foreground mb-2">Mood</p>
-          <div className="flex justify-between">
+          <p className="text-sm text-muted-foreground mb-4">Mood</p>
+          <div className="flex justify-between gap-4 px-4">
             <MoodButton mood="happy" icon={Smile} label="Great" />
             <MoodButton mood="neutral" icon={Meh} label="Okay" />
             <MoodButton mood="sad" icon={Frown} label="Not Great" />
@@ -82,8 +89,8 @@ const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
         </div>
         
         <div>
-          <p className="text-sm text-muted-foreground mb-2">Energy Level</p>
-          <div className="flex justify-between">
+          <p className="text-sm text-muted-foreground mb-4">Energy Level</p>
+          <div className="flex justify-between gap-4 px-4">
             <EnergyButton level="low" icon={Battery} label="Low" />
             <EnergyButton level="medium" icon={BatteryMedium} label="Medium" />
             <EnergyButton level="high" icon={BatteryFull} label="High" />
@@ -92,7 +99,7 @@ const MoodCheckInWidget = ({ onSubmit, className }: MoodCheckInWidgetProps) => {
         
         <Button
           onClick={handleSubmit}
-          className="w-full mt-2"
+          className="w-full"
           disabled={!selectedMood || !selectedEnergy}
         >
           Log Check-In
