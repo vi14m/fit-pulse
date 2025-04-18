@@ -4,6 +4,7 @@ import MainNavbar from '@/components/MainNavbar';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Bell, Volume2, Timer, Trophy, Moon } from 'lucide-react';
 
 const Settings = () => {
   return (
@@ -19,12 +20,15 @@ const Settings = () => {
           <div className="grid gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Notifications</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="w-5 h-5 text-fitPulse-purple" />
+                  Notifications
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Workout Reminders</Label>
+              <CardContent className="space-y-6">
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Workout Reminders</Label>
                     <p className="text-sm text-muted-foreground">
                       Receive notifications for scheduled workouts
                     </p>
@@ -32,9 +36,9 @@ const Settings = () => {
                   <Switch />
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Achievement Alerts</Label>
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Achievement Alerts</Label>
                     <p className="text-sm text-muted-foreground">
                       Get notified when you earn new achievements
                     </p>
@@ -42,9 +46,9 @@ const Settings = () => {
                   <Switch defaultChecked />
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Weekly Reports</Label>
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Weekly Reports</Label>
                     <p className="text-sm text-muted-foreground">
                       Receive weekly progress summaries
                     </p>
@@ -56,12 +60,15 @@ const Settings = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Preferences</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Volume2 className="w-5 h-5 text-fitPulse-blue" />
+                  App Preferences
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Sound Effects</Label>
+              <CardContent className="space-y-6">
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Sound Effects</Label>
                     <p className="text-sm text-muted-foreground">
                       Play sounds during workouts
                     </p>
@@ -69,9 +76,19 @@ const Settings = () => {
                   <Switch defaultChecked />
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Workout Timer</Label>
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Dark Mode</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Enable dark mode theme
+                    </p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+                
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="space-y-1">
+                    <Label className="text-base">Workout Timer</Label>
                     <p className="text-sm text-muted-foreground">
                       Show countdown timer during exercises
                     </p>

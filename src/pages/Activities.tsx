@@ -1,8 +1,9 @@
 
 import React from 'react';
 import MainNavbar from '@/components/MainNavbar';
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ActivitySquare, Calendar, Clock, Dumbbell } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { ActivitySquare, Calendar, Clock, Dumbbell, Filter } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const activities = [
   {
@@ -34,31 +35,36 @@ const Activities = () => {
       <MainNavbar />
       <div className="container max-w-6xl mx-auto px-4 py-8">
         <div className="space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Activities</h1>
-            <p className="text-muted-foreground">Track your fitness activities</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Activities</h1>
+              <p className="text-muted-foreground">Track your fitness activities</p>
+            </div>
+            <Button variant="outline">
+              <Filter className="w-4 h-4 mr-2" /> Filter
+            </Button>
           </div>
 
           <div className="grid gap-4">
             {activities.map((activity, index) => (
-              <Card key={index}>
+              <Card key={index} className="hover:bg-accent/50 transition-colors">
                 <CardContent className="flex items-center justify-between p-6">
                   <div className="flex items-center gap-4">
-                    <div className="p-2 rounded-full bg-secondary">
+                    <div className="p-3 rounded-xl bg-secondary">
                       {activity.type === 'Workout' ? (
-                        <Dumbbell className="w-5 h-5" />
+                        <Dumbbell className="w-5 h-5 text-fitPulse-purple" />
                       ) : (
-                        <ActivitySquare className="w-5 h-5" />
+                        <ActivitySquare className="w-5 h-5 text-fitPulse-blue" />
                       )}
                     </div>
                     <div>
-                      <h3 className="font-medium">{activity.name}</h3>
-                      <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
+                      <h3 className="font-medium text-lg">{activity.name}</h3>
+                      <div className="flex items-center gap-4 mt-1">
+                        <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                           <Calendar className="w-4 h-4" />
                           {activity.date}
                         </span>
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                           <Clock className="w-4 h-4" />
                           {activity.duration}
                         </span>
