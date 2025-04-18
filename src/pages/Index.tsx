@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import MainNavbar from '@/components/MainNavbar';
@@ -9,7 +8,6 @@ import DailyGoalCard from '@/components/DailyGoalCard';
 import UserLevelIndicator from '@/components/UserLevelIndicator';
 import BadgeCollection from '@/components/BadgeCollection';
 import AudioFeedback from '@/components/AudioFeedback';
-import { useTheme } from '@/components/ThemeProvider';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { 
@@ -19,17 +17,12 @@ import {
 
 const Index = () => {
   const { toast } = useToast();
-  const { theme, setTheme } = useTheme();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [userName] = useState('Alex');
   const [userLevel] = useState(8);
   const [userXp] = useState(750);
   const [userXpForNextLevel] = useState(1000);
   const [streakCount] = useState(7);
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
 
   const handleMoodCheckIn = (mood: any, energy: any) => {
     toast({
@@ -161,10 +154,7 @@ const Index = () => {
     <div className="min-h-screen pb-20 md:pb-8">
       <AudioFeedback enable={soundEnabled} />
       
-      <MainNavbar 
-        isDarkMode={theme === 'dark'} 
-        onToggleTheme={toggleTheme} 
-      />
+      <MainNavbar />
       
       <main className="container px-4 py-8">
         {/* Header Section */}

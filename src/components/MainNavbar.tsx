@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   ActivitySquare, Award, BarChart, Calendar, 
   Cog, Dumbbell, Home, User 
@@ -23,6 +23,7 @@ const MainNavbar = ({ className }: MainNavbarProps) => {
   const { theme, setTheme } = useTheme();
   const isDarkMode = theme === 'dark';
   const onToggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  const location = useLocation();
   
   const navItems: NavItem[] = [
     { label: 'Home', href: '/', icon: Home },
@@ -53,7 +54,10 @@ const MainNavbar = ({ className }: MainNavbarProps) => {
             <Link
               key={item.href}
               to={item.href}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition-colors"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition-colors",
+                location.pathname === item.href && "bg-accent"
+              )}
               aria-label={item.label}
               title={item.label}
             >
@@ -101,10 +105,16 @@ const MainNavbar = ({ className }: MainNavbarProps) => {
           <Link
             key={item.href}
             to={item.href}
-            className="flex flex-col items-center p-2"
+            className={cn(
+              "flex flex-col items-center p-2",
+              location.pathname === item.href && "text-primary"
+            )}
             aria-label={item.label}
           >
-            <item.icon className="w-6 h-6 text-muted-foreground" />
+            <item.icon className={cn(
+              "w-6 h-6", 
+              location.pathname === item.href ? "text-primary" : "text-muted-foreground"
+            )} />
           </Link>
         ))}
       </div>
