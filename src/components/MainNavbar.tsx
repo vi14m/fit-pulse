@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ViewToggle from './ViewToggle';
+import { useTheme } from './ThemeProvider';
 
 interface NavItem {
   label: string;
@@ -15,12 +16,14 @@ interface NavItem {
 }
 
 interface MainNavbarProps {
-  isDarkMode: boolean;
-  onToggleTheme: () => void;
   className?: string;
 }
 
-const MainNavbar = ({ isDarkMode, onToggleTheme, className }: MainNavbarProps) => {
+const MainNavbar = ({ className }: MainNavbarProps) => {
+  const { theme, setTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
+  const onToggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  
   const navItems: NavItem[] = [
     { label: 'Home', href: '/', icon: Home },
     { label: 'Workouts', href: '/workouts', icon: Dumbbell },
